@@ -1,0 +1,54 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from PersonServiceService WSDL service -->
+
+  <service name="PersonService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.gudimella.lavanya.com"/>
+      <parameter name="wsdlServiceElement" value="PersonServiceService"/>
+      <parameter name="schemaQualified" value="http://dto.gudimella.lavanya.com,http://service.gudimella.lavanya.com"/>
+      <parameter name="wsdlServicePort" value="PersonService"/>
+      <parameter name="className" value="com.lavanya.gudimella.service.PersonServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="PersonService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getAllPersons" qname="operNS:getAllPersons" xmlns:operNS="http://service.gudimella.lavanya.com" returnQName="retNS:getAllPersonsReturn" xmlns:retNS="http://service.gudimella.lavanya.com" returnType="rtns:Person" xmlns:rtns="http://dto.gudimella.lavanya.com" soapAction="" >
+      </operation>
+      <operation name="savePerson" qname="operNS:savePerson" xmlns:operNS="http://service.gudimella.lavanya.com" soapAction="" >
+        <parameter qname="pns:person" xmlns:pns="http://service.gudimella.lavanya.com" type="tns:Person" xmlns:tns="http://dto.gudimella.lavanya.com"/>
+      </operation>
+      <operation name="updatePerson" qname="operNS:updatePerson" xmlns:operNS="http://service.gudimella.lavanya.com" soapAction="" >
+        <parameter qname="pns:person" xmlns:pns="http://service.gudimella.lavanya.com" type="tns:Person" xmlns:tns="http://dto.gudimella.lavanya.com"/>
+      </operation>
+      <operation name="deletePerson" qname="operNS:deletePerson" xmlns:operNS="http://service.gudimella.lavanya.com" soapAction="" >
+        <parameter qname="pns:person" xmlns:pns="http://service.gudimella.lavanya.com" type="tns:Person" xmlns:tns="http://dto.gudimella.lavanya.com"/>
+      </operation>
+      <operation name="getPersonById" qname="operNS:getPersonById" xmlns:operNS="http://service.gudimella.lavanya.com" returnQName="retNS:getPersonByIdReturn" xmlns:retNS="http://service.gudimella.lavanya.com" returnType="rtns:Person" xmlns:rtns="http://dto.gudimella.lavanya.com" soapAction="" >
+        <parameter qname="pns:person_id" xmlns:pns="http://service.gudimella.lavanya.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="findByEmail" qname="operNS:findByEmail" xmlns:operNS="http://service.gudimella.lavanya.com" returnQName="retNS:findByEmailReturn" xmlns:retNS="http://service.gudimella.lavanya.com" returnType="rtns:Person" xmlns:rtns="http://dto.gudimella.lavanya.com" soapAction="" >
+        <parameter qname="pns:email_address" xmlns:pns="http://service.gudimella.lavanya.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="findUser" qname="operNS:findUser" xmlns:operNS="http://service.gudimella.lavanya.com" returnQName="retNS:findUserReturn" xmlns:retNS="http://service.gudimella.lavanya.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:email_address" xmlns:pns="http://service.gudimella.lavanya.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="deletePerson findUser getPersonById savePerson getAllPersons findByEmail updatePerson"/>
+
+      <typeMapping
+        xmlns:ns="http://dto.gudimella.lavanya.com"
+        qname="ns:Person"
+        type="java:com.lavanya.gudimella.dto.Person"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>
